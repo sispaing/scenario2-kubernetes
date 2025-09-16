@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  namespace: acp
+  labels:
+    app: frontend
+spec:
+  replicas: 1 # Number of pods to run
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: counter_app_frontend:latest # Your frontend image
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+        env:
+        - name: USER_NAME
+          value: "Nick" # Your name as an environment variable
+        - name: BACKEND_HOST
+          value: backend
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: acp
+spec:
+  selector:
+    app: frontend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: NodePort # Exposes the service externally

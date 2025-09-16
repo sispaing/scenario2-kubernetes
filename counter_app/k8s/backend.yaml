@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: acp
+  labels:
+    app: backend
+spec:
+  replicas: 1  # Number of pods to run
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: counter_app_backend:latest  # Your backend image
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5000  # Flask app runs on port 5000
+        env:
+        - name: DB_HOST
+          value: mysql.acp.svc.cluster.local  # MySQL service name in Kubernetes
+        - name: DB_USER
+          value: root
+        - name: DB_PASSWORD
+          value: rootpassword
+        - name: DB_DATABASE
+          value: counter_db
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: acp
+spec:
+  selector:
+    app: backend
+  ports:
+  - protocol: TCP
+    port: 5000  # Exposed service port
+    targetPort: 5000  # Container port
+  type: ClusterIP  # Internal service for backend communication

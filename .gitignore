@@ -1,0 +1,49 @@
+ .gitignore for Terraform Projects
+
+### Terraform ###
+# Ignore local Terraform state files and plans
+*.tfstate
+*.tfstate.*
+*.tfplan
+plan.tfplan
+plan.destroy.tfplan
+
+# Ignore crash log files
+crash.log
+crash.*.log
+
+# Ignore the .terraform directory, which contains providers and modules
+.terraform/
+
+# Ignore override files, as they are typically used for local testing
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
+
+### Operating System Files ###
+# Ignore macOS-specific files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Ignore Windows-specific files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+### IDE/Editor Directories ###
+# Ignore common editor directories
+.vscode/
+.idea/
+*.swp
+*~
+
+*.zip
+*.DS_Store
